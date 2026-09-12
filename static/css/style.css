@@ -1,0 +1,319 @@
+:root {
+    --primary: #0d9488;       /* Türkis - Hauptfarbe */
+    --primary-dunkel: #0f766e;
+    --primary-hell: #ccfbf1;
+    --akzent: #2dd4bf;
+    --hintergrund: #f6fbfa;
+    --karte: #ffffff;
+    --text: #1f2937;
+    --text-mild: #6b7280;
+    --rand: #e2e8e7;
+    --radius: 12px;
+    --schatten: 0 2px 10px rgba(13, 148, 136, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--hintergrund);
+    color: var(--text);
+}
+
+/* Kopfbereich */
+.kopfbereich {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dunkel));
+    box-shadow: 0 2px 12px rgba(13, 148, 136, 0.25);
+}
+
+.logo {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-gruppe {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.92);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: background 0.15s ease;
+}
+.nav-link:hover { background: rgba(255, 255, 255, 0.15); }
+
+.inhalt {
+    max-width: 1020px;
+    margin: 28px auto;
+    padding: 0 20px 40px;
+}
+
+.fussbereich {
+    text-align: center;
+    color: var(--text-mild);
+    font-size: 0.85rem;
+    padding: 24px;
+}
+
+/* Buttons */
+.button-primary, .button-secondary {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.15s ease;
+}
+.button-primary {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
+}
+.button-primary:hover { background: var(--primary-dunkel); transform: translateY(-1px); }
+.button-secondary {
+    background: var(--primary-hell);
+    color: var(--primary-dunkel);
+}
+.button-secondary:hover { background: #b6f4ea; }
+
+/* Filterleiste */
+.filter-leiste {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 26px;
+    background: var(--karte);
+    padding: 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--rand);
+    box-shadow: var(--schatten);
+}
+.filter-leiste input, .filter-leiste select {
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--rand);
+    font-size: 0.9rem;
+    background: var(--hintergrund);
+}
+.filter-leiste input:focus, .filter-leiste select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+.filter-leiste input[type="text"] { flex: 2; min-width: 160px; }
+.filter-leiste input[type="number"] { width: 120px; }
+
+/* Kartenraster */
+.karten-raster {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 20px;
+}
+.karte {
+    background: var(--karte);
+    border: 1px solid var(--rand);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: var(--schatten);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.karte:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(13, 148, 136, 0.15);
+}
+.karte-bild {
+    width: 100%;
+    height: 165px;
+    object-fit: cover;
+    display: block;
+    background: var(--primary-hell);
+}
+.karte-inhalt { padding: 14px 16px; }
+.karte-inhalt h3 { margin: 0 0 4px; font-size: 1rem; }
+.karte-kategorie { margin: 0; font-size: 0.8rem; color: var(--text-mild); }
+.karte-preis { margin: 8px 0; font-weight: 700; color: var(--primary-dunkel); font-size: 1.05rem; }
+
+/* Status-Badges */
+.status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+.status-verfügbar { background: #d4f7e8; color: #0a7a4a; }
+.status-reserviert { background: #fef3c7; color: #92650b; }
+.status-gekauft-versendet { background: #e5e7eb; color: #6b7280; }
+
+/* Formulare */
+.formular {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 440px;
+    background: var(--karte);
+    padding: 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--rand);
+    box-shadow: var(--schatten);
+}
+.formular label { font-size: 0.85rem; font-weight: 600; margin-top: 10px; color: var(--text-mild); }
+.formular input, .formular select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--rand);
+    font-size: 0.95rem;
+    background: var(--hintergrund);
+}
+.formular input:focus, .formular select:focus { outline: none; border-color: var(--primary); }
+.formular button { margin-top: 18px; }
+
+/* Detailansicht */
+.zurueck-link {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: var(--primary-dunkel);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.detail-ansicht {
+    display: flex;
+    gap: 28px;
+    background: var(--karte);
+    padding: 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--rand);
+    box-shadow: var(--schatten);
+    flex-wrap: wrap;
+}
+.detail-bild {
+    width: 320px;
+    max-width: 100%;
+    border-radius: var(--radius);
+    object-fit: cover;
+}
+.detail-info { flex: 1; min-width: 220px; }
+.detail-kategorie { color: var(--text-mild); }
+.detail-preis { font-size: 1.5rem; font-weight: 700; color: var(--primary-dunkel); }
+.aktionen { margin-top: 22px; }
+
+/* Netzwerk-Info-Seite */
+.netzwerk-intro {
+    color: var(--text-mild);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+.netzwerk-raster {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+.netzwerk-karte {
+    background: var(--karte);
+    border: 1px solid var(--rand);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--schatten);
+}
+.netzwerk-karte h3 {
+    margin: 0 0 10px;
+    font-size: 0.95rem;
+    color: var(--primary-dunkel);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.netzwerk-zeile {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--rand);
+    font-size: 0.88rem;
+}
+.netzwerk-zeile:last-child { border-bottom: none; }
+.netzwerk-label { color: var(--text-mild); }
+.netzwerk-wert { font-weight: 600; font-family: "Consolas", monospace; }
+.badge-privat { color: #0a7a4a; }
+.badge-oeffentlich { color: #b45309; }
+
+.dns-formular {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+.dns-formular input {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--rand);
+    font-size: 0.9rem;
+}
+.dns-ergebnis {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-family: "Consolas", monospace;
+}
+.dns-ergebnis.erfolg { background: #d4f7e8; color: #0a7a4a; }
+.dns-ergebnis.fehler { background: #fde2e2; color: #b42318; }
+
+.lexikon-raster {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+.lexikon-karte {
+    background: var(--karte);
+    border: 1px solid var(--rand);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+}
+.lexikon-karte h4 {
+    margin: 0 0 6px;
+    font-size: 0.88rem;
+    color: var(--primary-dunkel);
+}
+.lexikon-karte p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--text-mild);
+    line-height: 1.4;
+}
+
+/* Sonstiges */
+.hinweistext { color: var(--text-mild); }
+.flash-nachricht {
+    background: var(--primary-hell);
+    border: 1px solid #99e6db;
+    color: var(--primary-dunkel);
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+h1 { color: var(--text); }

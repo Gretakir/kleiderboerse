@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block titel %}{{ item['titel'] }}{% endblock %}
+
+{% block inhalt %}
+    <a href="{{ url_for('index') }}" class="zurueck-link">← Zurück zur Übersicht</a>
+
+    <div class="detail-ansicht">
+        <img src="{{ url_for('static', filename='uploads/' + item['bild_dateiname']) }}"
+             alt="{{ item['titel'] }}" class="detail-bild">
+
+        <div class="detail-info">
+            <h1>{{ item['titel'] }}</h1>
+            <p class="detail-kategorie">{{ item['kategorie'] }}</p>
+            <p class="detail-preis">{{ "%.2f"|format(item['preis']) }} €</p>
+            <span class="status status-{{ item['status']|replace('/', '-') }}">{{ item['status'] }}</span>
+
+            <div class="aktionen">
+                {% if item['status'] == STATUS_VERFUEGBAR %}
+                    <form method="post" action="{{ url_for('item_reservieren', item_id=item['id']) }}">
+                        <button type="submit" class="button-primary">Reservieren / Kauf anfragen</button>
+                    </form>
+                {% elif item['status'] == STATUS_RESERVIERT %}
+                    <form method="post" action="{{ url_for('item_bestaetigen', item_id=item['id']) }}">
+                        <button type="submit" class="button-primary">Erhalt bestätigen</button>
+                    </form>
+                {% else %}
+                    <p class="hinweistext">Diese Anzeige ist bereits abgeschlossen.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

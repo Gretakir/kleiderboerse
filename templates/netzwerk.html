@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block titel %}Netzwerk-Info{% endblock %}
+
+{% block inhalt %}
+    <h1>📡 Netzwerk-Info</h1>
+    <p class="netzwerk-intro">
+        Diese Seite liest bei jedem Aufruf die echten Daten der aktuellen Verbindung
+        und des Raspberry Pi aus und berechnet daraus die Netzwerk-Fachbegriffe —
+        keine Beispielwerte, sondern live aus dem laufenden Server.
+    </p>
+
+    <div class="netzwerk-raster">
+        <div class="netzwerk-karte">
+            <h3>💻 Dein Gerät (Client)</h3>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">IPv4-Adresse</span>
+                <span class="netzwerk-wert">{{ client_ip }}</span>
+            </div>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">Private/öffentliche IP</span>
+                <span class="netzwerk-wert {{ 'badge-privat' if client_info.ist_privat else 'badge-oeffentlich' }}">
+                    {{ "privat" if client_info.ist_privat else "öffentlich" }}
+                </span>
+            </div>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">Netzwerkanteil</span>
+                <span class="netzwerk-wert">{{ client_info.netzwerkanteil }}</span>
+            </div>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">Hostanteil</span>
+                <span class="netzwerk-wert">{{ client_info.hostanteil }}</span>
+            </div>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">Browser (User-Agent)</span>
+                <span class="netzwerk-wert" style="font-size:0.7rem;">{{ user_agent[:38] }}…</span>
+            </div>
+        </div>
+
+        <div class="netzwerk-karte">
+            <h3>🖥️ Raspberry Pi (Server)</h3>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">IPv4-Adresse</span>
+                <span class="netzwerk-wert">{{ server_ip }}</span>
+            </div>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">Private/öffentliche IP</span>
+                <span class="netzwerk-wert {{ 'badge-privat' if server_info.ist_privat else 'badge-oeffentlich' }}">
+                    {{ "privat" if server_info.ist_privat else "öffentlich" }}
+                </span>
+            </div>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">Subnetzmaske</span>
+                <span class="netzwerk-wert">{{ subnetzmaske }}</span>
+            </div>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">Standard-Gateway</span>
+                <span class="netzwerk-wert">{{ gateway }}</span>
+            </div>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">Port</span>
+                <span class="netzwerk-wert">{{ port }}</span>
+            </div>
+        </div>
+
+        <div class="netzwerk-karte">
+            <h3>🔗 Aktuelle Verbindung</h3>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">Protokoll</span>
+                <span class="netzwerk-wert">{{ protokoll }}</span>
+            </div>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">HTTP-Methode</span>
+                <span class="netzwerk-wert">{{ methode }}</span>
+            </div>
+            <div class="netzwerk-zeile">
+                <span class="netzwerk-label">Transportprotokoll</span>
+                <span class="netzwerk-wert">TCP</span>
+            </div>
+            <p class="hinweistext" style="font-size:0.8rem; margin-top:10px;">
+                HTTP baut immer auf TCP auf, da eine zuverlässige, vollständige
+                Übertragung der Webseite nötig ist (kein Datenverlust wie bei UDP).
+            </p>
+        </div>
+
+        <div class="netzwerk-karte">
+            <h3>🌐 DNS-Auflösung testen</h3>
+            <form class="dns-formular" method="get" action="{{ url_for('netzwerk_info') }}">
+                <input type="text" name="dns_ziel" placeholder="z. B. github.com" value="{{ dns_ziel }}">
+                <button type="submit" class="button-primary">Auflösen</button>
+            </form>
+            {% if dns_ergebnis %}
+                {% if dns_ergebnis.erfolg %}
+                    <div class="dns-ergebnis erfolg">„{{ dns_ziel }}" → {{ dns_ergebnis.ip }}</div>
+                {% else %}
+                    <div class="dns-ergebnis fehler">Konnte „{{ dns_ziel }}" nicht auflösen.</div>
+                {% endif %}
+            {% endif %}
+            <p class="hinweistext" style="font-size:0.8rem; margin-top:10px;">
+                Der Server fragt hier einen DNS-Server, welche IP-Adresse zu dem
+                eingegebenen Namen gehört — genau das passiert auch im Hintergrund,
+                wenn ihr im Browser „kleiderboerse.local" eintippt.
+            </p>
+        </div>
+    </div>
+
+    <h2>Weitere Fachbegriffe</h2>
+    <div class="lexikon-raster">
+        <div class="lexikon-karte">
+            <h4>Router</h4>
+            <p>Verbindet dieses lokale Netzwerk mit anderen Netzwerken (z. B. dem Internet) und vergibt IP-Adressen.</p>
+        </div>
+        <div class="lexikon-karte">
+            <h4>Switch</h4>
+            <p>Verteilt Datenpakete innerhalb des lokalen Netzwerks gezielt an das richtige Gerät.</p>
+        </div>
+        <div class="lexikon-karte">
+            <h4>WLAN/LAN</h4>
+            <p>WLAN: drahtlose Funkverbindung. LAN: kabelgebundene Verbindung im lokalen Netz.</p>
+        </div>
+        <div class="lexikon-karte">
+            <h4>UDP</h4>
+            <p>Schnelles, verbindungsloses Protokoll ohne Zustellgarantie — Gegenstück zu TCP.</p>
+        </div>
+        <div class="lexikon-karte">
+            <h4>DynDNS</h4>
+            <p>Ordnet einer wechselnden öffentlichen IP-Adresse dauerhaft einen festen Domainnamen zu.</p>
+        </div>
+        <div class="lexikon-karte">
+            <h4>VPN</h4>
+            <p>Baut eine verschlüsselte Verbindung über ein öffentliches Netz auf, wie ein virtuelles lokales Netz.</p>
+        </div>
+    </div>
+{% endblock %}

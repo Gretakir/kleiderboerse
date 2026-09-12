@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+venv/
+kleiderboerse.db
+static/uploads/*
+!static/uploads/.gitkeep

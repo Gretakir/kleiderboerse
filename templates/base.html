@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titel %}Kleiderbörse{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="kopfbereich">
+        <a href="{{ url_for('index') }}" class="logo">🧺 Kleiderbörse</a>
+        <div class="nav-gruppe">
+            <a href="{{ url_for('netzwerk_info') }}" class="nav-link">📡 Netzwerk-Info</a>
+            <a href="{{ url_for('upload') }}" class="button-secondary">+ Anzeige erstellen</a>
+        </div>
+    </header>
+
+    <main class="inhalt">
+        {% with nachrichten = get_flashed_messages() %}
+            {% if nachrichten %}
+                {% for nachricht in nachrichten %}
+                    <div class="flash-nachricht">{{ nachricht }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block inhalt %}{% endblock %}
+    </main>
+
+    <footer class="fussbereich">
+        Informatik-Projekt „Netzwerke mit dem Raspberry Pi" — läuft lokal auf einem Raspberry Pi
+    </footer>
+</body>
+</html>

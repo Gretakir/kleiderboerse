@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block titel %}Kleiderbörse — Übersicht{% endblock %}
+
+{% block inhalt %}
+    <form class="filter-leiste" method="get" action="{{ url_for('index') }}">
+        <input type="text" name="q" placeholder="Suchen (z. B. Jacke)" value="{{ suchbegriff }}">
+
+        <select name="kategorie">
+            <option value="">Alle Kategorien</option>
+            {% for k in kategorien %}
+                <option value="{{ k }}" {% if k == gewaehlte_kategorie %}selected{% endif %}>{{ k }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="number" name="preis_min" placeholder="Preis von (€)" step="0.5" min="0" value="{{ preis_min }}">
+        <input type="number" name="preis_max" placeholder="Preis bis (€)" step="0.5" min="0" value="{{ preis_max }}">
+
+        <button type="submit" class="button-primary">Filtern</button>
+    </form>
+
+    {% if items|length == 0 %}
+        <p class="hinweistext">Keine Anzeigen gefunden. Ändere die Filter oder erstelle die erste Anzeige.</p>
+    {% else %}
+        <div class="karten-raster">
+            {% for item in items %}
+                <a class="karte" href="{{ url_for('item_detail', item_id=item['id']) }}">
+                    <img src="{{ url_for('static', filename='uploads/' + item['bild_dateiname']) }}"
+                         alt="{{ item['titel'] }}" class="karte-bild">
+                    <div class="karte-inhalt">
+                        <h3>{{ item['titel'] }}</h3>
+                        <p class="karte-kategorie">{{ item['kategorie'] }}</p>
+                        <p class="karte-preis">{{ "%.2f"|format(item['preis']) }} €</p>
+                        <span class="status status-{{ item['status']|replace('/', '-') }}">{{ item['status'] }}</span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
